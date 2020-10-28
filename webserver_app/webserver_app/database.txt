@@ -1,15 +1,33 @@
 CREATE DATABASE webserver;
 USE webserver; 
 CREATE TABLE device (
-   device_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   sign VARCHAR(128)
+   device_id INTEGER NOT NULL,
+   sign VARCHAR(128),
+   PRIMARY KEY(device_id)
 ) ENGINE=InnoDB CHARSET=utf8;
+CREATE TABLE acc (
+   user_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   username VARCHAR(30),
+   password VARCHAR(30),
+   device_id INTEGER NOT NULL,
 
+   CONSTRAINT FOREIGN KEY (device_id)
+    REFERENCES device (device_id)
+    ON DELETE CASCADE ON UPDATE CASCADE
+
+) ENGINE=InnoDB CHARSET=utf8;
 CREATE TABLE data (
    data_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
    date_post VARCHAR(30),
    nhietdo VARCHAR(30),
-   doam VARCHAR(30)
+   doam VARCHAR(30),
+   device_id INTEGER NOT NULL,
+
+   CONSTRAINT FOREIGN KEY (device_id)
+    REFERENCES device (device_id)
+    ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
-INSERT INTO device(sign) VALUES ("e807f1fcf82d132f9bb018ca6738a19f") 
+INSERT INTO device(device_id,sign) VALUES (1,"e807f1fcf82d132f9bb018ca6738a19f");
+INSERT INTO acc(username,password,device_id) VALUES ("caoky","caoky99",1);
+INSERT INTO data(date_post,nhietdo,doam,device_id) VALUES ("17/11/2020",123,456,1) 
 //sign=1234567890
